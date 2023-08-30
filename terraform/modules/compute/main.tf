@@ -1,14 +1,14 @@
 resource "aws_instance" "instance" {
     ami                    = "ami-02e136e904f3da870"
     instance_type          = "t2.micro"
-    subnet_id              = aws_subnet.sn_public.id
+    subnet_id              = var.network_subnet_pub_id
     vpc_security_group_ids = [aws_security_group.sg_public.id]
     user_data              = "${base64encode(data.template_file.user_data.rendered)}"
 }
 
 resource "aws_security_group" "sg_public" {
     name        = "sg_public"
-    vpc_id      = aws_vpc.vpc.id
+    vpc_id      = var.network_vpc_pub_id
     
     egress {
         from_port   = 0
@@ -39,4 +39,8 @@ resource "aws_security_group" "sg_public" {
         cidr_blocks = ["0.0.0.0/0"]
     }
 
+}
+
+data "template_file" "user_data" {
+    template = "${file("./scripts/user_data.sh")}"
 }

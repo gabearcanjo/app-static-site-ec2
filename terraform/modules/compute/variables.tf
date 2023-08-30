@@ -13,21 +13,6 @@ variable "network_subnet_pub_id" {
   type        = string
 }
 
-variable "network_vpc_priv_id" {
-  description = "Network VPC private ID"
-  type        = string
-}
-
-variable "network_vpc_priv_cidr_block" {
-  description = "Network VPC private CIDR block"
-  type        = string
-}
-
-variable "network_subnet_priv_id" {
-  description = "Network subnet private ID"
-  type        = string
-}
-
 variable "compute_ami_id" {
   description = "Compute AMI ID"
   type        = string

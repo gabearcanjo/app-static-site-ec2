@@ -10,6 +10,16 @@ resource "aws_subnet" "subnet_pub" {
   map_public_ip_on_launch = true
 }
 
+resource "aws_vpc" "vpc_priv" {
+  cidr_block           = var.network_vpc_priv_cidr_block
+  enable_dns_hostnames = "true"
+}
+
+resource "aws_subnet" "subnet_priv" {
+  vpc_id            = aws_vpc.vpc_priv.id
+  cidr_block        = var.network_subnet_priv_cidr_block
+  availability_zone = var.network_subnet_priv_az
+}
 
 resource "aws_internet_gateway" "vpc_pub_igw" {
   vpc_id = aws_vpc.vpc_pub.id
