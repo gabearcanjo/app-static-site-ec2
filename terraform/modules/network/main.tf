@@ -15,15 +15,15 @@ resource "aws_internet_gateway" "vpc_pub_igw" {
   vpc_id = aws_vpc.vpc_pub.id
 }
 
-resource "aws_route_table" "rt_pub" {
-  vpc_id = aws_vpc.vpc_pub.id
+resource "aws_route_table" "rt_public" {
+  vpc_id = aws_vpc.vpc.id
   route {
     cidr_block                = var.network_vpc_priv_cidr_block
   }
   
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.vpc_pub_igw.id
+    gateway_id = aws_internet_gateway.igw.id
   }
 }
 
