@@ -20,6 +20,7 @@ resource "aws_route_table" "rt_pub" {
   route {
     cidr_block                = var.network_vpc_priv_cidr_block
   }
+  
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.vpc_pub_igw.id
@@ -29,9 +30,4 @@ resource "aws_route_table" "rt_pub" {
 resource "aws_route_table_association" "subnet_pub_to_rt_pub" {
   subnet_id      = aws_subnet.subnet_pub.id
   route_table_id = aws_route_table.rt_pub.id
-}
-
-resource "aws_route_table_association" "subnet_priv_to_rt_priv" {
-  subnet_id      = aws_subnet.subnet_priv.id
-  route_table_id = aws_route_table.rt_priv.id
 }
