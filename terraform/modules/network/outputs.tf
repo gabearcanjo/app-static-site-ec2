@@ -1,11 +1,11 @@
-output "network_vpc_pub_id" {
-  value = aws_vpc.vpc_pub.id
+output "vpc_id" {
+    value = "${aws_vpc.vpc.id}"
 }
 
-output "network_vpc_pub_cidr_block" {
-  value = aws_vpc.vpc_pub.cidr_block
+output "vpc_sg_pub_id" {
+    value = "${aws_security_group.vpc_sg_pub.id}"
 }
 
-output "network_subnet_pub_id" {
-  value = aws_subnet.subnet_pub.id
+output "vpc_sn_pub_az1_id" {
+    value = "${aws_subnet.sn_pub_az1.id}"
 }

@@ -1,32 +1,19 @@
-variable "network_vpc_pub_id" {
-  description = "Network VPC public ID"
-  type        = string
+variable "vpc_id" {}
+variable "vpc_cidr" {}
+variable "vpc_sn_pub_az1_id" {}
+variable "vpc_sg_pub_id" {}
+
+variable "ec2_lt_name" {
+    type    = string
+    default = "ec2_lt_name"
 }
 
-variable "network_vpc_pub_cidr_block" {
-  description = "Network VPC public CIDR block"
-  type        = string
+variable "ec2_lt_ami" {
+    type    = string
+    default = "ami-02e136e904f3da870"
 }
 
-variable "network_subnet_pub_id" {
-  description = "Network subnet public ID"
-  type        = string
-}
-
-variable "compute_ami_id" {
-  description = "Compute AMI ID"
-  type        = string
-  default     = "ami-0e38fa17744b2f6a5"
-}
-
-variable "compute_instance_type" {
-  description = "Compute instance type"
-  type        = string
-  default     = "t2.nano"
-}
-
-variable "compute_key_name" {
-  description = "Compute key name"
-  type        = string
-  default     = "key"
+variable "ec2_lt_instance_type" {
+    type    = string
+    default = "t2.micro"
 }

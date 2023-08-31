@@ -1,33 +1,63 @@
-resource "aws_vpc" "vpc_pub" {
-  cidr_block           = var.network_vpc_pub_cidr_block
-  enable_dns_hostnames = "true"
+# RESOURCE: VPC
+resource "aws_vpc" "vpc" {
+    cidr_block           = "${var.vpc_cidr}"
+    enable_dns_hostnames = "${var.vpc_dns_hostnames}"
 }
 
-resource "aws_subnet" "subnet_pub" {
-  vpc_id                  = aws_vpc.vpc_pub.id
-  cidr_block              = var.network_subnet_pub_cidr_block
-  availability_zone       = var.network_subnet_pub_az
-  map_public_ip_on_launch = true
+# INTERNET GATEWAY
+resource "aws_internet_gateway" "igw" {
+    vpc_id = aws_vpc.vpc.id
 }
 
-
-resource "aws_internet_gateway" "vpc_pub_igw" {
-  vpc_id = aws_vpc.vpc_pub.id
+# RESOURCE: SUBNETS
+resource "aws_subnet" "sn_pub_az1" {
+    vpc_id                  = aws_vpc.vpc.id
+    availability_zone       = "${var.vpc_az1}"
+    cidr_block              = "${var.vpc_sn_pub_az1_cidr}"
+    map_public_ip_on_launch = "${var.vpc_sn_pub_map_public_ip_on_launch}"
 }
 
 resource "aws_route_table" "rt_pub" {
-  vpc_id = aws_vpc.vpc_pub.id
-  route {
-    cidr_block                = var.network_vpc_priv_cidr_block
-  }
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.vpc_pub_igw.id
-  }
+    vpc_id = aws_vpc.vpc.id
+    route {
+        cidr_block = "${var.vpc_cidr_all}"
+        gateway_id = aws_internet_gateway.igw.id
+    }
 }
 
-resource "aws_route_table_association" "subnet_pub_to_rt_pub" {
-  subnet_id      = aws_subnet.subnet_pub.id
+#ROUTE TABLE
+
+resource "aws_route_table_association" "rt_pub_sn_pub_az1" {
+  subnet_id      = aws_subnet.sn_pub_az1.id
   route_table_id = aws_route_table.rt_pub.id
 }
 
+# SECURITY GROUPS
+resource "aws_security_group" "vpc_sg_pub" {
+    name   = "sg_public"
+    vpc_id = aws_vpc.vpc.id
+    egress {
+        from_port   = "${var.vpc_sg_port_all}"
+        to_port     = "${var.vpc_sg_port_all}"
+        protocol    = "${var.vpc_sg_protocol_any}"
+        cidr_blocks = ["${var.vpc_cidr_all}"]
+    }
+    ingress {
+        from_port   = "${var.vpc_sg_port_all}"
+        to_port     = "${var.vpc_sg_port_all}"
+        protocol    = "${var.vpc_sg_protocol_any}"
+        cidr_blocks = ["${var.vpc_cidr}"]
+    }
+    ingress {
+        from_port   = "${var.vpc_sg_port_ssh}"
+        to_port     = "${var.vpc_sg_port_ssh}"
+        protocol    = "${var.vpc_sg_protocol_tcp}"
+        cidr_blocks = ["${var.vpc_cidr_all}"]
+    }
+    ingress {
+        from_port   = "${var.vpc_sg_port_http}"
+        to_port     = "${var.vpc_sg_port_http}"
+        protocol    = "${var.vpc_sg_protocol_tcp}"
+        cidr_blocks = ["${var.vpc_cidr_all}"]
+    }
+}

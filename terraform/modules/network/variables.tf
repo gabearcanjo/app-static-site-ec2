@@ -1,35 +1,58 @@
-variable "network_vpc_pub_cidr_block" {
-  description = "Network VPC public CIDR block"
-  type        = string
-  default     = "10.0.0.0/16"
+# NETWORK VARS DEFAULT VALUES
+
+variable "vpc_cidr" {
+    type    = string
+    default = "20.0.0.0/16"
 }
 
-variable "network_subnet_pub_cidr_block" {
-  description = "Network subnet public CIDR block"
-  type        = string
-  default     = "10.0.1.0/24"
+variable "vpc_az1" {
+    type    = string
+    default = "us-east-1a"
 }
 
-variable "network_subnet_pub_az" {
-  description = "Network subnet public AZ"
-  type        = string
-  default     = "us-east-1a"
+variable "vpc_cidr_all" {
+    type    = string
+    default = "0.0.0.0/0"
 }
 
-variable "network_vpc_priv_cidr_block" {
-  description = "Network VPC private CIDR block"
-  type        = string
-  default     = "10.0.0.0/16"
+variable "vpc_dns_hostnames" {
+    type    = bool
+    default = true
 }
 
-variable "network_subnet_priv_cidr_block" {
-  description = "Network subnet private CIDR block"
-  type        = string
-  default     = "10.0.1.0/24"
+variable "vpc_sn_pub_az1_cidr" {
+    type    = string
+    default = "20.0.1.0/24"
 }
 
-variable "network_subnet_priv_az" {
-  description = "Network subnet private AZ"
-  type        = string
-  default     = "us-east-1b"
+variable "vpc_sn_pub_map_public_ip_on_launch" {
+    type    = bool
+    default = true
+}
+
+# SECURITY GROUP VARS DEFAULT VALUES
+
+variable "vpc_sg_port_all" {
+    type    = number
+    default = 0
+}
+
+variable "vpc_sg_port_ssh" {
+    type    = number
+    default = 22
+}
+
+variable "vpc_sg_port_http" {
+    type    = number
+    default = 80
+}
+
+variable "vpc_sg_protocol_any" {
+    type    = string
+    default = "-1"
+}
+
+variable "vpc_sg_protocol_tcp" {
+    type    = string
+    default = "tcp"
 }
