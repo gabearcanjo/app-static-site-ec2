@@ -1,17 +1,17 @@
 module "network" {
-  source = "./modules/network"
-
-  network_vpc_pub_cidr_block     = "10.0.0.0/16"
-  network_subnet_pub_cidr_block  = "10.0.1.0/24"
+    source               = "./modules/network"
+    vpc_cidr             = "10.0.0.0/16"
+    vpc_az1              = "${var.vpc_az1}"
+    vpc_sn_pub_az1_cidr  = "${var.vpc_sn_pub_az1_cidr}"
 }
 
 module "compute" {
-  source = "./modules/compute"
-
-  network_vpc_pub_id          = module.network.network_vpc_pub_id
-  network_vpc_pub_cidr_block  = module.network.network_vpc_pub_cidr_block
-  network_subnet_pub_id       = module.network.network_subnet_pub_id
-  compute_ami_id              = "ami-02e136e904f3da870"
-  compute_instance_type       = "t2.micro"
-  compute_key_name            = "vockey"
+    source               = "./modules/compute"
+    ec2_lt_name          = "${var.ec2_lt_name}"
+    ec2_lt_ami           = "${var.ec2_lt_ami}"
+    ec2_lt_instance_type = "${var.ec2_lt_instance_type}"
+    vpc_cidr             = "${var.vpc_cidr}"
+    vpc_id               = "${module.network.vpc_id}"
+    vpc_sn_pub_az1_id    = "${module.network.vpc_sn_pub_az1_id}"
+    vpc_sg_pub_id        = "${module.network.vpc_sg_pub_id}"
 }
