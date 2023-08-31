@@ -73,7 +73,7 @@ resource "aws_security_group" "sg_public" {
 # EC2 INSTANCE
 
 data "template_file" "user_data" {
-    template = "${file("./scripts/user_data.sh")}"
+    template = "${file("./modules/compute/scripts/user_data.sh")}"
 }
 
 resource "aws_instance" "instance" {
