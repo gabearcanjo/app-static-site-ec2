@@ -41,6 +41,10 @@ resource "aws_security_group" "sg_public" {
 
 }
 
+resource "aws_internet_gateway" "vpc_pub_igw" {
+  vpc_id = aws_vpc.vpc_pub.id
+}
+
 data "template_file" "user_data" {
     template = "${file("./scripts/user_data.sh")}"
 }
