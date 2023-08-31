@@ -1,5 +1,3 @@
-# NETWORK VARS DEFAULT VALUES
-
 variable "vpc_cidr" {
     type    = string
     default = "20.0.0.0/16"
@@ -29,8 +27,6 @@ variable "vpc_sn_pub_map_public_ip_on_launch" {
     type    = bool
     default = true
 }
-
-# SECURITY GROUP VARS DEFAULT VALUES
 
 variable "vpc_sg_port_all" {
     type    = number
